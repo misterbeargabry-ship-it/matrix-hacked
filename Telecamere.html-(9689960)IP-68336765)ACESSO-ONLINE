@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MATRIX HACKED</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#000;color:#00ff41;font-family:monospace}
+canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+main{position:relative;z-index:1;padding:20px;max-width:600px;margin:auto}
+.panel{background:#000e;border:1px solid #00ff41;
+box-shadow:0 0 20px #00ff4160;padding:22px;margin:35px 0;
+text-align:center}
+h1{font-size:32px;text-shadow:0 0 12px #00ff41}
+button{background:#00ff41;color:#000;border:0;
+padding:14px 22px;font-weight:bold;font-size:16px;margin:8px}
+button.red{background:#222;color:#00ff41;border:1px solid #00ff41}
+img{width:100%;border:2px solid #00ff41;margin-top:12px}
+.hidden{display:none}
+.status{color:#00ff41;text-shadow:0 0 8px #00ff41}
+.file{text-align:left;border:1px solid #087d25;padding:12px;margin:10px 0}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<main>
+<section class="panel" id="intro">
+<h1>MATRIX SYSTEM</h1>
+<p>RICHIESTA DI AUTORIZZAZIONE</p>
+<p>Vuoi avviare la simulazione hacker?</p>
+<button onclick="start()">AUTORIZZA</button>
+<button class="red" onclick="deny()">NEGA</button>
+</section>
+
+<section id="content" class="hidden">
+<div class="panel">
+<h1>YOU HAVE BEEN HACKED</h1>
+<p>SIMULAZIONE AVVIATA</p>
+<p class="status">ACCESSO DIMOSTRATIVO ATTIVO</p>
+</div>
+
+<div class="panel">
+<h2>📁 DATI_RECUPERATI</h2>
+<div class="file">
+<p>👤 NOME: KEVIN NAPOLETANO</p>
+<p>📞 NUMERO: +39 ••• ••• ••16</p>
+<p>📂 STATO: DATI DIMOSTRATIVI</p>
+</div>
+</div>
+
+<div class="panel">
+<h2>📹 CAMERA ONLINE</h2>
+<p class="status">LIVE PREVIEW – DEMO</p>
+<img src="camera.jpg" alt="Anteprima fotografica"
+onerror="this.style.display='none';document.getElementById('missing').style.display='block'">
+<p id="missing" class="hidden">Foto non trovata: carica camera.jpg nel repository.</p>
+<p>IMMAGINE CARICATA MANUALMENTE</p>
+</div>
+
+<div class="panel">
+<h2>SYSTEM STATUS</h2>
+<p class="status">MATRIX CONNECTION: SIMULATED</p>
+<p id="clock">00:00:00</p>
+<button class="red" onclick="restore()">RIPRISTINA</button>
+</div>
+</section>
+</main>
+<script>
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+let drops=[];
+function resize(){
+ canvas.width=innerWidth;
+ canvas.height=innerHeight;
+ drops=Array(Math.ceil(canvas.width/16)).fill(1);
+}
+resize();
+addEventListener("resize",resize);
+function draw(){
+ ctx.fillStyle="rgba(0,0,0,.09)";
+ ctx.fillRect(0,0,canvas.width,canvas.height);
+ ctx.fillStyle="#00ff41";
+ ctx.font="16px monospace";
+ drops.forEach((y,i)=>{
+  ctx.fillText("01アイ"+Math.floor(Math.random()*10),i*16,y*16);
+  if(y*16>canvas.height&&Math.random()>.975)drops[i]=0;
+  drops[i]++;
+ });
+ requestAnimationFrame(draw);
+}
+draw();
+
+function start(){
+ document.getElementById("intro").classList.add("hidden");
+ document.getElementById("content").classList.remove("hidden");
+}
+function deny(){
+ document.getElementById("intro").innerHTML=
+ "<h1>ACCESS NEGATO</h1><p>SIMULAZIONE NON AVVIATA</p>";
+}
+function restore(){
+ document.getElementById("content").classList.add("hidden");
+ document.getElementById("intro").classList.remove("hidden");
+ document.getElementById("intro").innerHTML=
+ "<h1>SYSTEM RESTORED</h1><p>SIMULAZIONE TERMINATA</p><button onclick='location.reload()'>RIAVVIA</button>";
+}
+setInterval(()=>{
+ document.getElementById("clock").textContent=
+ new Date().toLocaleTimeString();
+},1000);
+</script>
+</body>
+</html>
