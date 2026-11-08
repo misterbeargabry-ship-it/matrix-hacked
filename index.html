@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MATRIX HACKED</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#000;color:#00ff41;font-family:monospace;overflow:hidden}
+canvas{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+#screen{position:relative;z-index:1;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px}
+.panel{background:#000d;border:1px solid #00ff41;padding:28px 18px;box-shadow:0 0 25px #00ff4160;width:100%;max-width:480px}
+h1{font-size:clamp(30px,9vw,48px);text-shadow:0 0 15px #00ff41}
+p{font-size:17px}
+button{background:#00ff41;color:#000;border:0;padding:15px 22px;font-weight:bold;font-size:16px;margin:8px;cursor:pointer}
+#message{display:none}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div id="screen">
+<div class="panel">
+<div id="intro">
+<h1>MATRIX SYSTEM</h1>
+<p>SIMULAZIONE HACKER</p>
+<p>Vuoi avviare la simulazione?</p>
+<button onclick="start()">AUTORIZZA</button>
+</div>
+<div id="message">
+<h1>YOU HAVE BEEN HACKED</h1>
+<p>ACCESSO SIMULATO...</p>
+<p>IL TUO SISTEMA È NELLA MATRIX</p>
+<p id="clock">00:00:00</p>
+<button onclick="restore()">RIPRISTINA</button>
+</div>
+</div>
+</div>
+<script>
+const c=document.getElementById("matrix");
+const ctx=c.getContext("2d");
+let drops=[],running=true;
+function resize(){
+ c.width=innerWidth;c.height=innerHeight;
+ drops=Array(Math.ceil(c.width/16)).fill(1);
+}
+resize();addEventListener("resize",resize);
+function draw(){
+ if(!running)return;
+ ctx.fillStyle="rgba(0,0,0,.08)";
+ ctx.fillRect(0,0,c.width,c.height);
+ ctx.fillStyle="#00ff41";
+ ctx.font="16px monospace";
+ drops.forEach((y,i)=>{
+  ctx.fillText("01アイ"+Math.floor(Math.random()*10),i*16,y*16);
+  if(y*16>c.height&&Math.random()>.975)drops[i]=0;
+  drops[i]++;
+ });
+ requestAnimationFrame(draw);
+}
+draw();
+let audio,oscillator;
+function start(){
+ document.getElementById("intro").style.display="none";
+ document.getElementById("message").style.display="block";
+ try{
+  audio=new (window.AudioContext||window.webkitAudioContext)();
+  oscillator=audio.createOscillator();
+  const gain=audio.createGain();
+  oscillator.type="sine";
+  oscillator.frequency.value=440;
+  gain.gain.value=.025;
+  oscillator.connect(gain);gain.connect(audio.destination);
+  oscillator.start();
+  setTimeout(()=>{if(oscillator)oscillator.stop()},700);
+ }catch(e){}
+}
+function restore(){
+ running=false;
+ if(audio)audio.close();
+ document.body.innerHTML="<div style='background:black;color:#00ff41;height:100vh;display:grid;place-items:center;font:22px monospace;text-align:center'>SYSTEM RESTORED<br><br>SIMULAZIONE TERMINATA</div>";
+}
+setInterval(()=>{
+ document.getElementById("clock").textContent=new Date().toLocaleTimeString();
+},1000);
+</script>
+</body>
+</html>
